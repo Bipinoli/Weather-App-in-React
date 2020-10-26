@@ -1,0 +1,14 @@
+$black-color: #070707;
+$blue-color: #4050d2;
+$gray-color: #c7c7c7;
+$light-gray-color: #f3f3f4;
+$orange-color: #ffbf5e;
+$white-color: #ffffff;
+
+$big-curve: 40px;
+$small-curve: 20px;
+
+@mixin card {
+  background-color: $white-color;
+  border-radius: $small-curve;
+}

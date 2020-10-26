@@ -1,0 +1,35 @@
+@import "base";
+
+.main {
+  width: 65%;
+  margin: auto;
+  margin-top: 2rem;
+  border-radius: $big-curve;
+  display: grid;
+  grid-template-columns: 30% auto;
+
+  & > div:first-child {
+    border-radius: $big-curve 0 0 $big-curve;
+  }
+
+  & > div:last-child {
+    border-radius: 0 $big-curve $big-curve 0;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .main {
+    width: 95%;
+    margin: 0.5rem;
+    display: flex;
+    flex-direction: column;
+
+    & > div:first-child {
+      border-radius: $big-curve $big-curve 0 0;
+    }
+
+    & > div:last-child {
+      border-radius: 0 0 $big-curve $big-curve;
+    }
+  }
+}
