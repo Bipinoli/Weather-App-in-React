@@ -3,10 +3,14 @@ import React from "react";
 import classes from "./TodayContainer.module.scss";
 import HighlightCard from "../../components/HighlightCard/HighlightCard";
 
-const TodayContainer = () => {
+type propsType = {
+  hideHeader: boolean;
+};
+
+const TodayContainer = ({ hideHeader }: propsType) => {
   return (
     <section className={classes.today_container}>
-      <h2>Today's Highlights</h2>
+      {hideHeader ? "" : <h2>Today's Highlights</h2>}
       <div className={classes.today_grid}>
         <HighlightCard
           title="Wind Status"

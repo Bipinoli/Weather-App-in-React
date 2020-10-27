@@ -5,12 +5,17 @@ import Header from "./../Header/Header";
 import WeeksContainer from "../WeeksContainer/WeeksContainer";
 import TodayContainer from "../TodayContainer/TodayContainer";
 
+import { useSelector } from "react-redux";
+import { WEEK } from "../../store/actions/viewType";
+
 const MainContainer = () => {
+  const viewType = useSelector((state: any) => state.viewType);
+
   return (
     <div className={classes.main}>
       <Header />
-      <WeeksContainer />
-      <TodayContainer />
+      {viewType === WEEK ? <WeeksContainer /> : ""}
+      <TodayContainer hideHeader={viewType !== WEEK} />
     </div>
   );
 };
