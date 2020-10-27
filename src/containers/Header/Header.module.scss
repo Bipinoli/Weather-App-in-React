@@ -1,0 +1,46 @@
+@import "../../base";
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  nav {
+    ul {
+      display: flex;
+      list-style: none;
+      li {
+        margin-right: 1rem;
+        cursor: pointer;
+        color: $gray-color;
+      }
+      li.selected {
+        color: $black-color;
+        font-weight: 600;
+        border-bottom: 1px solid $black-color;
+      }
+    }
+  }
+
+  .units {
+    display: flex;
+    div {
+      background-color: $white-color;
+      color: $black-color;
+      border-radius: 50%;
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-left: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+    .selected {
+      background-color: $black-color;
+      color: $white-color;
+    }
+  }
+}

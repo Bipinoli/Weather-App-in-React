@@ -1,0 +1,21 @@
+@import "../../base";
+
+.today_card {
+  @include card;
+  display: flex;
+  max-width: 10rem;
+  min-height: 8rem;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 0 1rem 1rem 0;
+  padding: 1rem 1.5rem;
+
+  p {
+    font-size: 0.8rem;
+  }
+
+  .title {
+    color: $gray-color;
+  }
+}
