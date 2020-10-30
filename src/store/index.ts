@@ -1,13 +1,23 @@
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import { unitsReducer, viewTypeReducer } from "./reducers";
+import createSagaMiddleware from "redux-saga";
+import rootSaga from "./sagas/sagas";
 
-const store = createStore(
-  combineReducers({
-    unit: unitsReducer,
-    viewType: viewTypeReducer,
-  }),
-  // @ts-ignore
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+export function configureStore() {
+  const sagaMiddleware = createSagaMiddleware();
 
-export default store;
+  const composeEnhancers = composeWithDevTools({
+    // Specify name here, actionsBlacklist, actionsCreators and other options if needed
+  });
+
+  const store = createStore(
+    combineReducers({
+      unit: unitsReducer,
+      viewType: viewTypeReducer,
+    }),
+    composeEnhancers(applyMiddleware(sagaMiddleware))
+  );
+  sagaMiddleware.run(rootSaga);
+  return store;
+}

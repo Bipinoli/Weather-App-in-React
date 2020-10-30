@@ -1,5 +1,5 @@
-import { DEG_C, DEG_F, unitActionType } from "../actions/units";
-import { WEEK, DAY, viewTypeActionType } from "../actions/viewType";
+import { DEG_C, DEG_F, WEEK, DAY } from "../constants/actions";
+import { unitActionType, viewTypeActionType } from "../constants/types";
 
 export const unitsReducer = (state: string = DEG_C, action: unitActionType) => {
   switch (action.type) {

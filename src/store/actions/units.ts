@@ -1,9 +1,5 @@
-export const DEG_C = "CELSIUS";
-export const DEG_F = "FAHRENHEIT";
-
-export type unitActionType = {
-  type: "CELSIUS" | "FAHRENHEIT";
-};
+import { DEG_C, DEG_F } from "../constants/actions";
+import { unitActionType } from "../constants/types";
 
 export const celsius = (): unitActionType => {
   return {

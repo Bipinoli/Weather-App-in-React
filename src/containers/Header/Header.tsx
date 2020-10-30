@@ -1,7 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { DAY, WEEK, week, today } from "../../store/actions/viewType";
-import { DEG_C, DEG_F, celsius, fahrenheit } from "../../store/actions/units";
+import { DAY, WEEK, DEG_C, DEG_F } from "../../store/constants/actions";
+import { week, today } from "../../store/actions/viewType";
+import { celsius, fahrenheit } from "../../store/actions/units";
 
 import classes from "./Header.module.scss";
 

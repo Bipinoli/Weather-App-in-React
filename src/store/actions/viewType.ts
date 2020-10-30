@@ -1,9 +1,5 @@
-export const WEEK = "WEEK";
-export const DAY = "DAY";
-
-export type viewTypeActionType = {
-  type: "WEEK" | "DAY";
-};
+import { WEEK, DAY } from "../constants/actions";
+import { viewTypeActionType } from "../constants/types";
 
 export const week = (): viewTypeActionType => {
   return {

@@ -6,7 +6,7 @@ import WeeksContainer from "../WeeksContainer/WeeksContainer";
 import TodayContainer from "../TodayContainer/TodayContainer";
 
 import { useSelector } from "react-redux";
-import { WEEK } from "../../store/actions/viewType";
+import { WEEK } from "../../store/constants/actions";
 
 const MainContainer = () => {
   const viewType = useSelector((state: any) => state.viewType);
