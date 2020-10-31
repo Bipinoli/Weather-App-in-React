@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { DAY, WEEK, DEG_C, DEG_F } from "../../store/constants/actions";
-import { week, today } from "../../store/actions/viewType";
-import { celsius, fahrenheit } from "../../store/actions/units";
+import ViewTypeActions from "../../store/viewTypes/action";
+import UnitActions from "../../store/units/action";
 
 import classes from "./Header.module.scss";
 
@@ -14,18 +14,18 @@ const Header = () => {
   const handleViewTypeClick = (event: any) => {
     switch (event.target.innerText) {
       case "Week":
-        return dispatch(week());
+        return dispatch(ViewTypeActions.week());
       case "Today":
-        return dispatch(today());
+        return dispatch(ViewTypeActions.today());
     }
   };
 
   const handleUnitClick = (event: any) => {
     switch (event.target.getAttribute("degree")) {
       case "F":
-        return dispatch(fahrenheit());
+        return dispatch(UnitActions.fahrenheit());
       case "C":
-        return dispatch(celsius());
+        return dispatch(UnitActions.celsius());
     }
   };
 

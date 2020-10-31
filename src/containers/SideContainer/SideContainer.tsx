@@ -14,14 +14,15 @@ const SideContainer = () => {
         <img src="http://openweathermap.org/img/wn/10d@2x.png" alt="" />
         <div className={classes.metrics}>
           <div className={classes.temp}>12&#176;C</div>
-          <div className={classes.datetime}>
-            Monday, <span className={classes.time}>16:00</span>
-          </div>
+          <p>Mostly Cloudy</p>
         </div>
       </section>
 
-      <section>
-        <p>Mostly Cloudy</p>
+      <section className={classes.cityPart}>
+        <h2>Kathmandu</h2>
+        <div className={classes.datetime}>
+          Monday, <span className={classes.time}>16:00</span>
+        </div>
       </section>
     </div>
   );

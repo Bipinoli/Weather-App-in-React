@@ -1,8 +1,9 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { unitsReducer, viewTypeReducer } from "./reducers";
 import createSagaMiddleware from "redux-saga";
-import rootSaga from "./sagas/sagas";
+import { reduceUnit } from "./units/reducer";
+import { reduceViewType } from "./viewTypes/reducer";
+import rootSaga from "./weather/saga";
 
 export function configureStore() {
   const sagaMiddleware = createSagaMiddleware();
@@ -13,8 +14,8 @@ export function configureStore() {
 
   const store = createStore(
     combineReducers({
-      unit: unitsReducer,
-      viewType: viewTypeReducer,
+      unit: reduceUnit,
+      viewType: reduceViewType,
     }),
     composeEnhancers(applyMiddleware(sagaMiddleware))
   );
