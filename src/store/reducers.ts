@@ -6,6 +6,8 @@ import {
   reduceWeather,
   reduceWeatherImage,
   selectIsWeatherLoading,
+  selectNthWeatherFromToday,
+  selectCityDetails,
 } from "./weather/reducer";
 
 const reducers = combineReducers({
@@ -19,6 +21,20 @@ export const selectors = {
   isWeatherLoading: createSelector(
     (state: any) => selectIsWeatherLoading(state.weatherData),
     (isLoading) => isLoading
+  ),
+  weatherToday: createSelector(
+    (state: any) => selectNthWeatherFromToday(0, state.weatherData),
+    (weather) => weather
+  ),
+  futureWeather: (n: number, state: any) => {
+    return createSelector(
+      (state: any) => selectNthWeatherFromToday(n, state.weatherData),
+      (weather) => weather
+    )(state);
+  },
+  cityDetails: createSelector(
+    (state: any) => selectCityDetails(state.weatherData),
+    (details) => details
   ),
 };
 

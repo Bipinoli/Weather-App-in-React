@@ -52,3 +52,11 @@ export const reduceWeatherImage = (
 export const selectIsWeatherLoading = (state: any) => {
   return state.isLoading;
 };
+
+export const selectNthWeatherFromToday = (n: number, state: any) => {
+  return { ...state?.weather?.data?.list[n] };
+};
+
+export const selectCityDetails = (state: any) => {
+  return { ...state?.weather?.data?.city };
+};

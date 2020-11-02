@@ -1,11 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, connect } from "react-redux";
 
 import classes from "./SideContainer.module.scss";
 import WeatherActions from "../../store/weather/action";
+import { selectors } from "../../store/reducers";
+import BaseSkeleton from "../../skeletons/BaseSkeleton/BaseSkeleton";
 
-const SideContainer = () => {
+const SideContainer = ({ cityDetails }: { cityDetails: any }) => {
   const cityNameRef = useRef<HTMLHeadingElement>(null);
 
   const adaptCityName = () => {
@@ -79,7 +81,8 @@ const SideContainer = () => {
       </section>
 
       <section className={classes.cityPart}>
-        <h2 ref={cityNameRef}>Kathmandu</h2>
+        {!cityDetails && <BaseSkeleton type="rectangle" size="big" />}
+        {!!cityDetails && <h2 ref={cityNameRef}>{cityDetails.name}</h2>}
         <div className={classes.datetime}>
           Monday, <span className={classes.time}>16:00</span>
         </div>
@@ -88,4 +91,10 @@ const SideContainer = () => {
   );
 };
 
-export default SideContainer;
+function mapStateToProps(state: any) {
+  return {
+    cityDetails: selectors.cityDetails(state),
+  };
+}
+
+export default connect(mapStateToProps)(SideContainer);
