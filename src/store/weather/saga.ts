@@ -13,14 +13,15 @@ import { weatherActionType, weatherImageActionType } from "../constants/types";
 function* getWeather(action: weatherActionType) {
   const { city, unit } = action.payload;
   const { response, error } = yield call(fetchWeatherApi, city, unit);
-  if (!!response) yield put({ type: WEATHER_DATA_RECEIVED, weather: response });
+  if (!!response) yield put({ type: WEATHER_DATA_RECEIVED, payload: response });
   else yield put({ type: WEATHER_FETCH_FAILED, error });
 }
 
 function* getWeatherImage(action: weatherImageActionType) {
   const { image_tag, size } = action.payload;
   const { response, error } = yield call(fetchWeatherImageApi, image_tag, size);
-  if (!!response) yield put({ type: WEATHER_IMAGE_RECEIVED, image: response });
+  if (!!response)
+    yield put({ type: WEATHER_IMAGE_RECEIVED, payload: response });
   else yield put({ type: WEATHER_IMAGE_FETCH_FAILED, error });
 }
 

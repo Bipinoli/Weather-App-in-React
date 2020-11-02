@@ -1,9 +1,9 @@
 export type unitActionType = {
-  type: "CELSIUS" | "FAHRENHEIT";
+  type: "unit/celsius" | "unit/fahrenheit";
 };
 
 export type viewTypeActionType = {
-  type: "WEEK" | "DAY";
+  type: "viewType/week" | "viewType/day";
 };
 
 type weatherActionPayloadType = {
@@ -24,4 +24,20 @@ type weatherImageActionPayloadType = {
 export type weatherImageActionType = {
   type: string;
   payload: weatherImageActionPayloadType;
+};
+
+export type weatherStateType = {
+  weather?: object;
+  isLoading: boolean;
+  error?: Error;
+};
+
+export type weatherImageStateType = {
+  isLoading: boolean;
+};
+
+export type fetchResponseActionType = {
+  type: string;
+  payload?: object;
+  error?: Error;
 };

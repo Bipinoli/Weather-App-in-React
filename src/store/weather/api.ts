@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const API_KEY = "4d549679691769c85c1c782f4f20ce07";
-const API_URL = "api.openweathermap.org/data/2.5/forecast/daily";
-const IMAGE_URL = "openweathermap.org/img/wn";
+const API_URL = "https://api.openweathermap.org/data/2.5/forecast/daily";
+const IMAGE_URL = "https://openweathermap.org/img/wn";
 
 async function fetchWeather(city: string, unit: string = "metric") {
   try {

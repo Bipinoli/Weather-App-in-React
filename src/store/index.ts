@@ -1,8 +1,7 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+import reducers from "./reducers";
 import createSagaMiddleware from "redux-saga";
-import { reduceUnit } from "./units/reducer";
-import { reduceViewType } from "./viewTypes/reducer";
 import rootSaga from "./weather/saga";
 
 export function configureStore() {
@@ -13,10 +12,7 @@ export function configureStore() {
   });
 
   const store = createStore(
-    combineReducers({
-      unit: reduceUnit,
-      viewType: reduceViewType,
-    }),
+    reducers,
     composeEnhancers(applyMiddleware(sagaMiddleware))
   );
   sagaMiddleware.run(rootSaga);
