@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import classes from "./MainContainer.module.scss";
 import Header from "./../Header/Header";
@@ -11,11 +11,23 @@ import { WEEK } from "../../store/constants/actions";
 const MainContainer = () => {
   const viewType = useSelector((state: any) => state.viewType);
 
+  const [selectedWeekCardIndex, setSelectedWeekCardIndex] = useState(0);
+  const weekCardClickHandler = (index: number): void => {
+    setSelectedWeekCardIndex(index);
+  };
+
   return (
     <div className={classes.main}>
       <Header />
-      {viewType === WEEK ? <WeeksContainer /> : ""}
-      <TodayContainer hideHeader={viewType !== WEEK} />
+      {viewType === WEEK ? (
+        <WeeksContainer clickHandler={weekCardClickHandler} />
+      ) : (
+        ""
+      )}
+      <TodayContainer
+        hideHeader={viewType !== WEEK}
+        selectedWeekCardIndex={selectedWeekCardIndex}
+      />
     </div>
   );
 };

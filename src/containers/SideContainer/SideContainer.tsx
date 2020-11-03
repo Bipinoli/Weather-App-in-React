@@ -100,7 +100,9 @@ const SideContainer = ({
             condition:
               !!weatherToday && !!weatherToday.temp && !!weatherToday.temp.day,
             successContent: () => (
-              <div className={classes.temp}>{weatherToday.temp.day}&#176;C</div>
+              <div className={classes.temp}>
+                {Math.round(weatherToday.temp.day)}&#176;C
+              </div>
             ),
             failurePlaceholder: () => <BaseSkeleton type="square" size="big" />,
           })}

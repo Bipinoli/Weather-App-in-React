@@ -13,29 +13,42 @@ type weekInfoType = {
   temp?: number;
 };
 
-function weekCardRenderer(week: weekInfoType): JSX.Element {
+const WeeksContainer = ({
+  weeks,
+  clickHandler,
+}: {
+  weeks: weekInfoType[];
+  clickHandler: (index: number) => void;
+}) => {
+  return (
+    <section className={classes.weeks_container}>
+      {weeks.map((week, index) => {
+        return weekCardRenderer(week, index, clickHandler);
+      })}
+    </section>
+  );
+};
+
+function weekCardRenderer(
+  week: weekInfoType,
+  index: number,
+  clickHandler: (index: number) => void
+): JSX.Element {
   return conditionalRenderer({
     condition: !!week.weekDay && !!week.logoTag && !!week.temp,
     successContent: () => (
       <WeekCard
+        key={index}
         day={week.weekDay || ""}
         imgSrc={`http://openweathermap.org/img/wn/${week.logoTag}@2x.png`}
         temp={week.temp || 0}
+        index={index}
+        clickHandler={clickHandler}
       />
     ),
     failurePlaceholder: () => <WeekCardSkeleton />,
   });
 }
-
-const WeeksContainer = ({ weeks }: { weeks: weekInfoType[] }) => {
-  return (
-    <section className={classes.weeks_container}>
-      {weeks.map((week) => {
-        return weekCardRenderer(week);
-      })}
-    </section>
-  );
-};
 
 function mapStateToProps(state: any) {
   return {

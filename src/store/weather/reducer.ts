@@ -23,9 +23,9 @@ export const reduceWeather = (
 ): weatherStateType => {
   switch (action.type) {
     case WEATHER_DATA_RECEIVED:
-      return { ...state, weather: action.payload };
+      return { ...state, weather: action.payload, isLoading: false };
     case WEATHER_FETCH_FAILED:
-      return { ...state, error: action.error };
+      return { ...state, error: action.error, isLoading: true };
     default:
       return state;
   }

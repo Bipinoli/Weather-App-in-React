@@ -4,6 +4,7 @@
   @include card;
   display: flex;
   max-width: 10rem;
+  min-width: 8rem;
   min-height: 8rem;
   flex-direction: column;
   align-items: flex-start;
