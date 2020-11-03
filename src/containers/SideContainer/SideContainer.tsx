@@ -7,7 +7,13 @@ import WeatherActions from "../../store/weather/action";
 import { selectors } from "../../store/reducers";
 import BaseSkeleton from "../../skeletons/BaseSkeleton/BaseSkeleton";
 
-const SideContainer = ({ cityDetails }: { cityDetails: any }) => {
+const SideContainer = ({
+  cityDetails,
+  weatherToday,
+}: {
+  cityDetails: any;
+  weatherToday: any;
+}) => {
   const cityNameRef = useRef<HTMLHeadingElement>(null);
 
   const adaptCityName = () => {
@@ -73,10 +79,31 @@ const SideContainer = ({ cityDetails }: { cityDetails: any }) => {
       </section>
 
       <section className={classes.main}>
-        <img src="http://openweathermap.org/img/wn/10d@2x.png" alt="" />
+        {(!weatherToday ||
+          !weatherToday.weather ||
+          !weatherToday.weather[0].icon) && (
+          <BaseSkeleton type="square" size="big" />
+        )}
+        {!!weatherToday &&
+          !!weatherToday.weather &&
+          !!weatherToday.weather[0].icon && (
+            <img
+              src={`http://openweathermap.org/img/wn/${weatherToday.weather[0].icon}@2x.png`}
+              alt="weather icon"
+            />
+          )}
         <div className={classes.metrics}>
           <div className={classes.temp}>12&#176;C</div>
-          <p>Mostly Cloudy</p>
+          {(!weatherToday ||
+            !weatherToday.weather ||
+            !weatherToday.weather[0].description) && (
+            <BaseSkeleton type="rectangle" size="big" />
+          )}
+          {!!weatherToday &&
+            !!weatherToday.weather &&
+            !!weatherToday.weather[0].description && (
+              <p>{weatherToday.weather[0].description}</p>
+            )}
         </div>
       </section>
 
@@ -84,7 +111,13 @@ const SideContainer = ({ cityDetails }: { cityDetails: any }) => {
         {!cityDetails && <BaseSkeleton type="rectangle" size="big" />}
         {!!cityDetails && <h2 ref={cityNameRef}>{cityDetails.name}</h2>}
         <div className={classes.datetime}>
-          Monday, <span className={classes.time}>16:00</span>
+          {/* Monday, <span className={classes.time}>16:00</span> */}
+          {Intl.DateTimeFormat(undefined, {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            weekday: "short",
+          }).format(cityDetails.dt)}
         </div>
       </section>
     </div>
@@ -94,6 +127,7 @@ const SideContainer = ({ cityDetails }: { cityDetails: any }) => {
 function mapStateToProps(state: any) {
   return {
     cityDetails: selectors.cityDetails(state),
+    weatherToday: selectors.weatherToday(state),
   };
 }
 
