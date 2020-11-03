@@ -48,6 +48,7 @@ $cityPartTextSize: 1.5rem;
     width: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     padding: 1rem;
     border-bottom: 1px solid $gray-color;
@@ -55,10 +56,13 @@ $cityPartTextSize: 1.5rem;
 
     .metrics {
       width: 100%;
+      min-height: 5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: space-between;
       text-align: center;
+      margin-top: 0.5rem;
 
       .temp {
         font-size: 2.5rem;
@@ -67,11 +71,20 @@ $cityPartTextSize: 1.5rem;
   }
 
   .cityPart {
+    min-height: 4rem;
+    min-width: 6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     text-align: center;
     h2 {
       margin-bottom: 0.5rem;
       width: 100%;
       font-size: 1.5rem;
+    }
+    .datetime {
+      min-width: 2rem;
     }
   }
 }

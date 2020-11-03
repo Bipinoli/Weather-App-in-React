@@ -7,6 +7,8 @@ import WeatherActions from "../../store/weather/action";
 import { selectors } from "../../store/reducers";
 import BaseSkeleton from "../../skeletons/BaseSkeleton/BaseSkeleton";
 
+import { conditionalRenderer } from "../utils";
+
 const SideContainer = ({
   cityDetails,
   weatherToday,
@@ -79,46 +81,70 @@ const SideContainer = ({
       </section>
 
       <section className={classes.main}>
-        {(!weatherToday ||
-          !weatherToday.weather ||
-          !weatherToday.weather[0].icon) && (
-          <BaseSkeleton type="square" size="big" />
-        )}
-        {!!weatherToday &&
-          !!weatherToday.weather &&
-          !!weatherToday.weather[0].icon && (
+        {conditionalRenderer({
+          condition:
+            !!weatherToday &&
+            !!weatherToday.weather &&
+            !!weatherToday.weather[0].icon,
+          successContent: () => (
             <img
               src={`http://openweathermap.org/img/wn/${weatherToday.weather[0].icon}@2x.png`}
               alt="weather icon"
             />
-          )}
+          ),
+          failurePlaceholder: () => <BaseSkeleton type="square" size="big" />,
+        })}
+
         <div className={classes.metrics}>
-          <div className={classes.temp}>12&#176;C</div>
-          {(!weatherToday ||
-            !weatherToday.weather ||
-            !weatherToday.weather[0].description) && (
-            <BaseSkeleton type="rectangle" size="big" />
-          )}
-          {!!weatherToday &&
-            !!weatherToday.weather &&
-            !!weatherToday.weather[0].description && (
-              <p>{weatherToday.weather[0].description}</p>
-            )}
+          {conditionalRenderer({
+            condition:
+              !!weatherToday && !!weatherToday.temp && !!weatherToday.temp.day,
+            successContent: () => (
+              <div className={classes.temp}>{weatherToday.temp.day}&#176;C</div>
+            ),
+            failurePlaceholder: () => <BaseSkeleton type="square" size="big" />,
+          })}
+
+          {conditionalRenderer({
+            condition:
+              !!weatherToday &&
+              !!weatherToday.weather &&
+              !!weatherToday.weather[0].description,
+            successContent: () => <p>{weatherToday.weather[0].description}</p>,
+            failurePlaceholder: () => (
+              <BaseSkeleton type="rectangle" size="big" />
+            ),
+          })}
         </div>
       </section>
 
       <section className={classes.cityPart}>
-        {!cityDetails && <BaseSkeleton type="rectangle" size="big" />}
-        {!!cityDetails && <h2 ref={cityNameRef}>{cityDetails.name}</h2>}
-        <div className={classes.datetime}>
-          {/* Monday, <span className={classes.time}>16:00</span> */}
-          {Intl.DateTimeFormat(undefined, {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            weekday: "short",
-          }).format(cityDetails.dt)}
-        </div>
+        {conditionalRenderer({
+          condition: !!cityDetails && !!cityDetails.name,
+          successContent: () => <h2 ref={cityNameRef}>{cityDetails.name}</h2>,
+          failurePlaceholder: () => (
+            <BaseSkeleton type="rectangle" size="big" />
+          ),
+        })}
+
+        {conditionalRenderer({
+          condition: !!weatherToday && !!weatherToday.dt,
+          successContent: () => (
+            <div className={classes.datetime}>
+              <p>
+                {Intl.DateTimeFormat(undefined, {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  weekday: "short",
+                }).format(new Date(weatherToday.dt * 1000))}
+              </p>
+            </div>
+          ),
+          failurePlaceholder: () => (
+            <BaseSkeleton type="rectangle" size="big" />
+          ),
+        })}
       </section>
     </div>
   );
