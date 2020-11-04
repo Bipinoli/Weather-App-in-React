@@ -20,7 +20,10 @@ const MainContainer = () => {
     <div className={classes.main}>
       <Header />
       {viewType === WEEK ? (
-        <WeeksContainer clickHandler={weekCardClickHandler} />
+        <WeeksContainer
+          clickHandler={weekCardClickHandler}
+          selectedCardIndex={selectedWeekCardIndex}
+        />
       ) : (
         ""
       )}

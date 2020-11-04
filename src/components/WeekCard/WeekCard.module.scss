@@ -2,7 +2,8 @@
 
 .week_card {
   @include card;
-  min-width: 100px;
+  min-width: 6rem;
+  min-height: 6.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,4 +23,7 @@
   &:hover {
     cursor: pointer;
   }
+}
+.selected {
+  border: 1px solid #ccc;
 }

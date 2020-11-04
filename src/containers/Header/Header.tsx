@@ -1,12 +1,14 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, connect } from "react-redux";
 import { DAY, WEEK, DEG_C, DEG_F } from "../../store/constants/actions";
 import ViewTypeActions from "../../store/viewTypes/action";
 import UnitActions from "../../store/units/action";
+import WeatherActions from "../../store/weather/action";
+import { selectors } from "../../store/reducers";
 
 import classes from "./Header.module.scss";
 
-const Header = () => {
+const Header = ({ cityDetails }: { cityDetails?: any }) => {
   const viewType = useSelector((state: any) => state.viewType);
   const unit = useSelector((state: any) => state.unit);
   const dispatch = useDispatch();
@@ -23,9 +25,17 @@ const Header = () => {
   const handleUnitClick = (event: any) => {
     switch (event.target.getAttribute("degree")) {
       case "F":
-        return dispatch(UnitActions.fahrenheit());
+        dispatch(UnitActions.fahrenheit());
+        !!cityDetails &&
+          cityDetails.hasOwnProperty("name") &&
+          dispatch(WeatherActions.fetchWeather(cityDetails.name, "imperial"));
+        break;
       case "C":
-        return dispatch(UnitActions.celsius());
+        dispatch(UnitActions.celsius());
+        !!cityDetails &&
+          cityDetails.hasOwnProperty("name") &&
+          dispatch(WeatherActions.fetchWeather(cityDetails.name, "metric"));
+        break;
     }
   };
 
@@ -50,7 +60,7 @@ const Header = () => {
       <div className={classes.units}>
         <div
           onClick={handleUnitClick}
-          className={unit === DEG_C ? classes.selected : ""}
+          className={unit === "C" ? classes.selected : ""}
           // @ts-ignore
           degree="C"
         >
@@ -58,7 +68,7 @@ const Header = () => {
         </div>
         <div
           onClick={handleUnitClick}
-          className={unit === DEG_F ? classes.selected : ""}
+          className={unit === "F" ? classes.selected : ""}
           // @ts-ignore
           degree="F"
         >
@@ -69,4 +79,10 @@ const Header = () => {
   );
 };
 
-export default Header;
+function mapStateToProps(state: any) {
+  return {
+    cityDetails: selectors.cityDetails(state),
+  };
+}
+
+export default connect(mapStateToProps)(Header);

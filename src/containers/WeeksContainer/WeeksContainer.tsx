@@ -16,14 +16,16 @@ type weekInfoType = {
 const WeeksContainer = ({
   weeks,
   clickHandler,
+  selectedCardIndex,
 }: {
   weeks: weekInfoType[];
   clickHandler: (index: number) => void;
+  selectedCardIndex: number;
 }) => {
   return (
     <section className={classes.weeks_container}>
       {weeks.map((week, index) => {
-        return weekCardRenderer(week, index, clickHandler);
+        return weekCardRenderer(week, index, clickHandler, selectedCardIndex);
       })}
     </section>
   );
@@ -32,10 +34,11 @@ const WeeksContainer = ({
 function weekCardRenderer(
   week: weekInfoType,
   index: number,
-  clickHandler: (index: number) => void
+  clickHandler: (index: number) => void,
+  selectedCardIndex: number
 ): JSX.Element {
   return conditionalRenderer({
-    condition: !!week.weekDay && !!week.logoTag && !!week.temp,
+    condition: !!week.weekDay && !!week.logoTag && week.hasOwnProperty("temp"),
     successContent: () => (
       <WeekCard
         key={index}
@@ -44,6 +47,7 @@ function weekCardRenderer(
         temp={week.temp || 0}
         index={index}
         clickHandler={clickHandler}
+        selected={index === selectedCardIndex}
       />
     ),
     failurePlaceholder: () => <WeekCardSkeleton />,

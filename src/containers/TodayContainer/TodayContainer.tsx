@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 
 import classes from "./TodayContainer.module.scss";
 import HighlightCard from "../../components/HighlightCard/HighlightCard";
@@ -21,13 +21,16 @@ const TodayContainer = ({
   weeks,
   selectedWeekCardIndex = 0,
 }: propsType) => {
+  const unit = useSelector((state: any) => state.unit);
+
   return (
     <section className={classes.today_container}>
       {hideHeader ? "" : renderHighlightHeading(selectedWeekCardIndex, weeks)}
       {hideHeader
-        ? renderHighlightCards(weatherToday)
+        ? renderHighlightCards(weatherToday, unit)
         : renderHighlightCards(
-            (weeks && weeks[selectedWeekCardIndex]) || weatherToday
+            (weeks && weeks[selectedWeekCardIndex]) || weatherToday,
+            unit
           )}
     </section>
   );
@@ -45,18 +48,22 @@ function renderHighlightHeading(
   return <h2>{weekDay}'s Highlights</h2>;
 }
 
-function renderHighlightCards(weather: any): JSX.Element {
+function renderHighlightCards(weather: any, unit: string): JSX.Element {
+  const speed_unit = unit === "C" ? "meters/s" : "miles/s";
   return (
     <div className={classes.today_grid}>
       {conditionalRenderer({
-        condition: !!weather && !!weather.temp && !!weather.temp.day,
+        condition:
+          !!weather &&
+          weather.hasOwnProperty("temp") &&
+          weather.temp.hasOwnProperty("day"),
         successContent: () => (
           <HighlightCard
             title="Temperature"
-            primaryInfo={`${Math.round(weather?.temp?.day)}° C`}
+            primaryInfo={`${Math.round(weather?.temp?.day)}° ${unit}`}
             secondaryInfo={`${Math.round(
               weather?.temp?.min
-            )}° C to ${Math.round(weather?.temp?.max)}° C`}
+            )}° ${unit} to ${Math.round(weather?.temp?.max)}° ${unit}`}
           />
         ),
         failurePlaceholder: () => <HighlightCardSkeleton />,
@@ -66,15 +73,17 @@ function renderHighlightCards(weather: any): JSX.Element {
         condition:
           !!weather &&
           !!weather.sunrise &&
-          !!weather.temp &&
-          !!weather.temp.morn,
+          weather.hasOwnProperty("temp") &&
+          weather.temp.hasOwnProperty("morn"),
         successContent: () => (
           <HighlightCard
             title="Sunrise"
             primaryInfo={`${
               weather && weather.sunrise && formatTime(weather?.sunrise)
             }`}
-            secondaryInfo={`morning: ${Math.round(weather?.temp?.morn)}° C`}
+            secondaryInfo={`morning: ${Math.round(
+              weather?.temp?.morn
+            )}° ${unit}`}
           />
         ),
         failurePlaceholder: () => <HighlightCardSkeleton />,
@@ -82,21 +91,24 @@ function renderHighlightCards(weather: any): JSX.Element {
 
       {conditionalRenderer({
         condition:
-          !!weather && !!weather.sunset && !!weather.temp && !!weather.temp.eve,
+          !!weather &&
+          !!weather.sunset &&
+          !!weather.hasOwnProperty("temp") &&
+          weather.temp.hasOwnProperty("eve"),
         successContent: () => (
           <HighlightCard
             title="Sunset"
             primaryInfo={`${
               weather && weather.sunset && formatTime(weather?.sunset)
             }`}
-            secondaryInfo={`evening: ${Math.round(weather?.temp?.eve)}° C`}
+            secondaryInfo={`evening: ${Math.round(weather?.temp?.eve)}°${unit}`}
           />
         ),
         failurePlaceholder: () => <HighlightCardSkeleton />,
       })}
 
       {conditionalRenderer({
-        condition: !!weather && !!weather.pressure,
+        condition: !!weather && weather.hasOwnProperty("pressure"),
         successContent: () => (
           <HighlightCard
             title="Pressure"
@@ -108,7 +120,7 @@ function renderHighlightCards(weather: any): JSX.Element {
       })}
 
       {conditionalRenderer({
-        condition: !!weather && !!weather.humidity,
+        condition: !!weather && weather.hasOwnProperty("humidity"),
         successContent: () => (
           <HighlightCard
             title="Humidity"
@@ -120,7 +132,7 @@ function renderHighlightCards(weather: any): JSX.Element {
       })}
 
       {conditionalRenderer({
-        condition: !!weather && !!weather.pop,
+        condition: !!weather && weather.hasOwnProperty("pop"),
         successContent: () => (
           <HighlightCard
             title="Precipitation"
@@ -132,11 +144,14 @@ function renderHighlightCards(weather: any): JSX.Element {
       })}
 
       {conditionalRenderer({
-        condition: !!weather && !!weather.speed && !!weather.deg,
+        condition:
+          !!weather &&
+          weather.hasOwnProperty("speed") &&
+          weather.hasOwnProperty("deg"),
         successContent: () => (
           <HighlightCard
             title="Wind Status"
-            primaryInfo={`${weather?.speed} m/s`}
+            primaryInfo={`${weather?.speed} ${speed_unit}`}
             secondaryInfo={`${weather?.deg} degrees`}
           />
         ),
@@ -144,7 +159,7 @@ function renderHighlightCards(weather: any): JSX.Element {
       })}
 
       {conditionalRenderer({
-        condition: !!weather && !!weather.clouds,
+        condition: !!weather && weather.hasOwnProperty("clouds"),
         successContent: () => (
           <HighlightCard
             title="Cloudiness"

@@ -98,7 +98,9 @@ const SideContainer = ({
         <div className={classes.metrics}>
           {conditionalRenderer({
             condition:
-              !!weatherToday && !!weatherToday.temp && !!weatherToday.temp.day,
+              !!weatherToday &&
+              weatherToday.hasOwnProperty("temp") &&
+              !!weatherToday.temp.hasOwnProperty("day"),
             successContent: () => (
               <div className={classes.temp}>
                 {Math.round(weatherToday.temp.day)}&#176;C
