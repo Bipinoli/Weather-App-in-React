@@ -60,7 +60,7 @@ const Header = ({ cityDetails }: { cityDetails?: any }) => {
       <div className={classes.units}>
         <div
           onClick={handleUnitClick}
-          className={unit === "C" ? classes.selected : ""}
+          className={unit === DEG_C ? classes.selected : ""}
           // @ts-ignore
           degree="C"
         >
@@ -68,7 +68,7 @@ const Header = ({ cityDetails }: { cityDetails?: any }) => {
         </div>
         <div
           onClick={handleUnitClick}
-          className={unit === "F" ? classes.selected : ""}
+          className={unit === DEG_F ? classes.selected : ""}
           // @ts-ignore
           degree="F"
         >

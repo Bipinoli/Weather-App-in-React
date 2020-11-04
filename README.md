@@ -9,4 +9,5 @@
 - CSS Modules
 - Testing:
   - Jest, React-testing-library, Puppeteer
+  - Mock Service Worker (msw)
 - Github CI

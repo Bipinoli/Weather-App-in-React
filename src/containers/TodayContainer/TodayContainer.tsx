@@ -5,6 +5,7 @@ import classes from "./TodayContainer.module.scss";
 import HighlightCard from "../../components/HighlightCard/HighlightCard";
 import HighlightCardSkeleton from "../../skeletons/HighlightCardSkeleton/HighlightCardSkeleton";
 import { conditionalRenderer } from "../utils";
+import { DEG_C } from "../../store/constants/actions";
 
 import { selectors } from "../../store/reducers";
 
@@ -49,7 +50,8 @@ function renderHighlightHeading(
 }
 
 function renderHighlightCards(weather: any, unit: string): JSX.Element {
-  const speed_unit = unit === "C" ? "meters/s" : "miles/s";
+  const speed_unit = unit === DEG_C ? "meters/s" : "miles/s";
+  const temp_unit = unit === DEG_C ? "C" : "F";
   return (
     <div className={classes.today_grid}>
       {conditionalRenderer({
@@ -60,10 +62,12 @@ function renderHighlightCards(weather: any, unit: string): JSX.Element {
         successContent: () => (
           <HighlightCard
             title="Temperature"
-            primaryInfo={`${Math.round(weather?.temp?.day)}° ${unit}`}
+            primaryInfo={`${Math.round(weather?.temp?.day)}° ${temp_unit}`}
             secondaryInfo={`${Math.round(
               weather?.temp?.min
-            )}° ${unit} to ${Math.round(weather?.temp?.max)}° ${unit}`}
+            )}° ${temp_unit} to ${Math.round(
+              weather?.temp?.max
+            )}° ${temp_unit}`}
           />
         ),
         failurePlaceholder: () => <HighlightCardSkeleton />,
@@ -83,7 +87,7 @@ function renderHighlightCards(weather: any, unit: string): JSX.Element {
             }`}
             secondaryInfo={`morning: ${Math.round(
               weather?.temp?.morn
-            )}° ${unit}`}
+            )}° ${temp_unit}`}
           />
         ),
         failurePlaceholder: () => <HighlightCardSkeleton />,
@@ -101,7 +105,9 @@ function renderHighlightCards(weather: any, unit: string): JSX.Element {
             primaryInfo={`${
               weather && weather.sunset && formatTime(weather?.sunset)
             }`}
-            secondaryInfo={`evening: ${Math.round(weather?.temp?.eve)}°${unit}`}
+            secondaryInfo={`evening: ${Math.round(
+              weather?.temp?.eve
+            )}°${temp_unit}`}
           />
         ),
         failurePlaceholder: () => <HighlightCardSkeleton />,
@@ -112,7 +118,7 @@ function renderHighlightCards(weather: any, unit: string): JSX.Element {
         successContent: () => (
           <HighlightCard
             title="Pressure"
-            primaryInfo={`${weather?.pressure} hPa`}
+            primaryInfo={`${Math.round(weather?.pressure)} hPa`}
             secondaryInfo="hectopascals"
           />
         ),
@@ -124,7 +130,7 @@ function renderHighlightCards(weather: any, unit: string): JSX.Element {
         successContent: () => (
           <HighlightCard
             title="Humidity"
-            primaryInfo={`${weather?.humidity} %`}
+            primaryInfo={`${Math.round(weather?.humidity)} %`}
             secondaryInfo="WSW"
           />
         ),
@@ -136,7 +142,7 @@ function renderHighlightCards(weather: any, unit: string): JSX.Element {
         successContent: () => (
           <HighlightCard
             title="Precipitation"
-            primaryInfo={`${weather?.pop * 100} %`}
+            primaryInfo={`${Math.round(weather?.pop * 100)} %`}
             secondaryInfo="probability"
           />
         ),
@@ -151,8 +157,8 @@ function renderHighlightCards(weather: any, unit: string): JSX.Element {
         successContent: () => (
           <HighlightCard
             title="Wind Status"
-            primaryInfo={`${weather?.speed} ${speed_unit}`}
-            secondaryInfo={`${weather?.deg} degrees`}
+            primaryInfo={`${Math.round(weather?.speed)} ${speed_unit}`}
+            secondaryInfo={`${Math.round(weather?.deg)} degrees`}
           />
         ),
         failurePlaceholder: () => <HighlightCardSkeleton />,
@@ -163,7 +169,7 @@ function renderHighlightCards(weather: any, unit: string): JSX.Element {
         successContent: () => (
           <HighlightCard
             title="Cloudiness"
-            primaryInfo={`${weather?.clouds} %`}
+            primaryInfo={`${Math.round(weather?.clouds)} %`}
             secondaryInfo="percentage"
           />
         ),
